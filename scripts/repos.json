@@ -1,0 +1,14 @@
+[
+  { "name": "satelit-js", "tag": "TYPESCRIPT", "lines": ["The official client for Node, Deno, Bun and Workers.", "105 typed methods, one per route. Zero dependencies."], "tested": "Tested on Node 18, 20 and 24" },
+  { "name": "satelit-python", "tag": "PYTHON", "lines": ["Sync and async clients on the standard library alone.", "Typed answers, paging and NDJSON export built in."], "tested": "Tested on Python 3.10 to 3.13" },
+  { "name": "satelit-go", "tag": "GO", "lines": ["A Go module plus the satelit command line tool.", "Context aware, typed structs, a Prometheus exporter."], "tested": "Tested on Go 1.21, 1.22 and 1.23" },
+  { "name": "satelit-php", "tag": "PHP", "lines": ["Runs on old shared hosting and on PHP 8.4 alike.", "Composer or one require. File cache included."], "tested": "Tested on PHP 7.2, 7.4, 8.1, 8.3 and 8.4" },
+  { "name": "satelit-wordpress", "tag": "WORDPRESS", "lines": ["Ten blocks: BNM rates, converter, fuel, prices,", "news and cinemas. Market prices in WooCommerce."], "tested": "Tested on WordPress 5.0 to 7.1, WooCommerce 11.3" },
+  { "name": "satelit-opencart", "tag": "OPENCART", "lines": ["BNM rates written into your store's currencies.", "The market price shown on every product page."], "tested": "Tested on OpenCart 3.0.3.9, 3.0.5.1 and 4.1.0.4" },
+  { "name": "satelit-prestashop", "tag": "PRESTASHOP", "lines": ["BNM rates for your currencies, with a cron URL.", "Prices in other Moldovan shops beside your own."], "tested": "Tested on PrestaShop 1.7.8.11 and 8.2.9" },
+  { "name": "satelit-joomla", "tag": "JOOMLA", "lines": ["A module with six layouts and tags inside articles.", "Rates, fuel, news, cinemas, laws and the joke of the day."], "tested": "Tested on Joomla 3.10 and 5.4" },
+  { "name": "satelit-drupal", "tag": "DRUPAL", "lines": ["Five blocks with Twig templates and cache tags.", "The key stays in State, never in exported config."], "tested": "Tested on Drupal 10.6 and 11.4" },
+  { "name": "satelit-cinema", "tag": "MOVIES", "lines": ["A complete cinema website for Moldova, ready to deploy.", "Sessions by city, film pages, search. Three languages."], "tested": "Node 18+, no dependencies, Docker file included" },
+  { "name": "satelit-widgets", "tag": "ANY SITE", "lines": ["Six web components for Tilda, Wix or plain HTML.", "The key sits in a proxy: Node, Cloudflare or PHP."], "tested": "7 kB gzipped, tested in Chrome" },
+  { "name": "satelit-examples", "tag": "USE CASES", "lines": ["Twelve working projects: a Telegram bot, Sheets,", "price alerts, Grafana, court calendars, movie night."], "tested": "Each one run against the live API" }
+]
