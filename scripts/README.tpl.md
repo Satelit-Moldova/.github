@@ -29,31 +29,16 @@ Moldova publishes its data in a hundred places, in a hundred formats. Satelit re
 
 ## Try it in ten seconds
 
-<a href="https://github.com/Satelit-Moldova/satelit-go">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="{{A}}/terminal-dark.svg?v={{V}}">
-    <img alt="satelit rates in a terminal" src="{{A}}/terminal-light.svg?v={{V}}" width="49%" align="right">
-  </picture>
-</a>
+<p>
+<a href="https://github.com/Satelit-Moldova/satelit-js"><picture><source media="(prefers-color-scheme: dark)" srcset="{{A}}/code-dark.svg?v={{V}}"><img alt="The JavaScript SDK" src="{{A}}/code-light.svg?v={{V}}" width="49%"></picture></a>
+<a href="https://github.com/Satelit-Moldova/satelit-go"><picture><source media="(prefers-color-scheme: dark)" srcset="{{A}}/terminal-dark.svg?v={{V}}"><img alt="satelit rates in a terminal" src="{{A}}/terminal-light.svg?v={{V}}" width="49%"></picture></a>
+</p>
 
-No key needed for a first look:
+No key needed for a first look. Every answer also tells you what it cost and what is left, in the `X-Credits-*` headers.
 
 ```bash
 curl https://api.satelit.md/v1/sample
 ```
-
-With a key from the [console](https://developer.satelit.md/en/console/):
-
-```js
-import { Satelit } from '@satelit-moldova/sdk';
-
-const satelit = new Satelit({ apiKey: process.env.SATELIT_API_KEY });
-const { data } = await satelit.rates.list();
-```
-
-Every answer tells you what it cost and what is left, in the `X-Credits-*` headers.
-
-<br clear="right">
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="{{A}}/numbers-dark.svg?v={{V}}">

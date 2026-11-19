@@ -146,6 +146,24 @@ ${lines}`;
   write('terminal', theme, svg(420, 230, body, css, `satelit rates: EUR ${eur.value} lei`));
 }
 
+// ---------------------------------------------------------------- code: the same call from JavaScript, coloured like an editor
+function codepanel(t, theme) {
+  const k = theme === 'dark' ? '#C792EA' : '#8E3FB0', s = theme === 'dark' ? '#9FD39A' : '#2E7D32', f = theme === 'dark' ? '#82AAFF' : '#1F5FBF', c = t.muted;
+  const L = [
+    [[k, 'import'], [t.text, ' { Satelit } '], [k, 'from'], [s, " '@satelit-moldova/sdk'"]],
+    [],
+    [[k, 'const'], [t.text, ' satelit = '], [k, 'new'], [f, ' Satelit'], [t.text, '({ apiKey })']],
+    [[k, 'const'], [t.text, ' { data } = '], [k, 'await'], [t.text, ' satelit.'], [f, 'rates'], [t.text, '.'], [f, 'list'], [t.text, '()']],
+    [],
+    [[c, '// data[0] → { code: "EUR", value: 20.14 }']],
+  ];
+  const lines = L.map((parts, i) => `<text x="24" y="${74 + i * 26}" class="c">${parts.map(([col, txt]) => `<tspan fill="${col}">${esc(txt).replace(/ /g, '&#160;')}</tspan>`).join('')}</text>`).join('');
+  const css = `.c{font:400 15px ${MONO}}.ttl{font:500 14px ${FONT};fill:${t.muted}}`;
+  const body = `<rect width="420" height="230" rx="14" fill="${t.code}"/><rect x=".5" y=".5" width="419" height="229" rx="13.5" fill="none" stroke="${t.line}"/>
+<circle cx="22" cy="22" r="6" fill="#E5735B"/><circle cx="42" cy="22" r="6" fill="#F0B14E"/><circle cx="62" cy="22" r="6" fill="#5BBF8A"/><text x="398" y="27" class="ttl" text-anchor="end">rates.mjs</text>${lines}`;
+  write('code', theme, svg(420, 230, body, css, 'The Satelit SDK in JavaScript'));
+}
+
 // ---------------------------------------------------------------- one card per repo
 const REPOS = JSON.parse(readFileSync(join(ROOT, 'scripts', 'repos.json'), 'utf8'));
 function card(t, theme, r) {
@@ -164,6 +182,7 @@ for (const [theme, t] of Object.entries(THEMES)) {
   today(t, theme, sample);
   numbers(t, theme, stats.counts);
   terminal(t, theme, sample);
+  codepanel(t, theme);
   REPOS.forEach((r, i) => card(t, theme, { ...r, delay: (i % 6) * 0.8 }));
 }
 // the README from its template: picture addresses stamped with the day, so GitHub's image cache fetches new copies
