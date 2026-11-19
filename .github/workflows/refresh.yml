@@ -1,6 +1,7 @@
 name: Refresh profile
 
 # The profile's cards show live numbers: rebuild them from the keyless API routes a few times a day.
+# Pictures are committed first, then the README points at that commit, so no image cache can show an old copy.
 on:
   schedule:
     - cron: '17 5,11,17 * * *'
@@ -21,9 +22,14 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/build.mjs
-      - name: Commit when something changed
+      - name: Commit the pictures, then the README that points at them
         run: |
-          git add profile
+          git config user.name "Satelit"
+          git config user.email "contact@satelit.md"
+          git add profile/assets
           if git diff --cached --quiet; then echo "No change"; exit 0; fi
-          git -c user.name="Satelit" -c user.email="contact@satelit.md" commit -m "Profile: live numbers of $(date -u +%F)"
+          git commit -m "Profile: live numbers of $(date -u +%F)"
+          ASSET_REF=$(git rev-parse HEAD) node scripts/build.mjs
+          git add profile/README.md
+          git commit -m "Profile: README points at the new pictures"
           git push

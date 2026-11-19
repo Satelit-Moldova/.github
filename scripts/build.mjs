@@ -36,7 +36,9 @@ const svg = (w, h, body, css, label) =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}"><style>${css}@media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>${body}</svg>\n`;
 
 const DIGEST = createHash('sha1'); // every picture's bytes: a new stamp only when a picture changed
-function write(name, theme, content) { DIGEST.update(content); writeFileSync(join(OUT, `${name}-${theme}.svg`), content); }
+// ASSET_REF: the commit that holds the pictures. With it only the README is written, pointing at that commit, whose files never change.
+const REF = process.env.ASSET_REF || '';
+function write(name, theme, content) { DIGEST.update(content); if (!REF) writeFileSync(join(OUT, `${name}-${theme}.svg`), content); }
 
 // ---------------------------------------------------------------- banner: the mark, the promise, a ticker of real counts
 // Sizes: GitHub shows a profile README 640 to 900 px wide, so full-width pictures are drawn 880 wide and cards 420.
@@ -186,8 +188,8 @@ for (const [theme, t] of Object.entries(THEMES)) {
   REPOS.forEach((r, i) => card(t, theme, { ...r, delay: (i % 6) * 0.8 }));
 }
 // the README from its template: picture addresses stamped with the day, so GitHub's image cache fetches new copies
-const A = 'https://raw.githubusercontent.com/Satelit-Moldova/.github/main/profile/assets';
-const V = DIGEST.digest('hex').slice(0, 10);
+const A = `https://raw.githubusercontent.com/Satelit-Moldova/.github/${REF || 'main'}/profile/assets`;
+const V = REF ? REF.slice(0, 7) : DIGEST.digest('hex').slice(0, 10);
 const pic = (name, alt, href) => `<a href="${href}"><picture><source media="(prefers-color-scheme: dark)" srcset="${A}/${name}-dark.svg?v=${V}"><img alt="${esc(alt)}" src="${A}/${name}-light.svg?v=${V}" width="49%"></picture></a>`;
 const readme = readFileSync(join(ROOT, 'scripts', 'README.tpl.md'), 'utf8')
   .replace(/\{\{CARDS:([^}]+)\}\}/g, (_, list) => '<p>\n' + list.split(',').map((n) => { const r = REPOS.find((x) => x.name === n); return pic(`repo-${n}`, `${n}: ${r.lines.join(' ')}`, `https://github.com/Satelit-Moldova/${n}`); }).join('\n') + '\n</p>')
