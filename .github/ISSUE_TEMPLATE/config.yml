@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: API documentation
+    url: https://developer.satelit.md/en/docs/
+    about: Routes, parameters, credits and errors.
+  - name: Security report
+    url: mailto:contact@satelit.md
+    about: Report vulnerabilities privately, not in an issue.
