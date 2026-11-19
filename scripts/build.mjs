@@ -1,6 +1,7 @@
 // Builds the organisation profile's pictures from the live API (keyless routes only, so CI needs no secret).
 // Writes profile/assets/*.svg in a dark and a light version. Run: node scripts/build.mjs
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -34,7 +35,8 @@ const mark = (x, y, s, cls = '') =>
 const svg = (w, h, body, css, label) =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}"><style>${css}@media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>${body}</svg>\n`;
 
-function write(name, theme, content) { writeFileSync(join(OUT, `${name}-${theme}.svg`), content); }
+const DIGEST = createHash('sha1'); // every picture's bytes: a new stamp only when a picture changed
+function write(name, theme, content) { DIGEST.update(content); writeFileSync(join(OUT, `${name}-${theme}.svg`), content); }
 
 // ---------------------------------------------------------------- banner: the mark, the promise, a ticker of real counts
 // Sizes: GitHub shows a profile README 640 to 900 px wide, so full-width pictures are drawn 880 wide and cards 420.
@@ -166,7 +168,7 @@ for (const [theme, t] of Object.entries(THEMES)) {
 }
 // the README from its template: picture addresses stamped with the day, so GitHub's image cache fetches new copies
 const A = 'https://raw.githubusercontent.com/Satelit-Moldova/.github/main/profile/assets';
-const V = sample.updated_at.slice(0, 13).replace(/[-T:]/g, '');
+const V = DIGEST.digest('hex').slice(0, 10);
 const pic = (name, alt, href) => `<a href="${href}"><picture><source media="(prefers-color-scheme: dark)" srcset="${A}/${name}-dark.svg?v=${V}"><img alt="${esc(alt)}" src="${A}/${name}-light.svg?v=${V}" width="49%"></picture></a>`;
 const readme = readFileSync(join(ROOT, 'scripts', 'README.tpl.md'), 'utf8')
   .replace(/\{\{CARDS:([^}]+)\}\}/g, (_, list) => '<p>\n' + list.split(',').map((n) => { const r = REPOS.find((x) => x.name === n); return pic(`repo-${n}`, `${n}: ${r.lines.join(' ')}`, `https://github.com/Satelit-Moldova/${n}`); }).join('\n') + '\n</p>')
